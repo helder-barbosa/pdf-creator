@@ -27,6 +27,10 @@ for (let i = 0; i < 50; i++) {
 const printer = new PdfPrinter(fonts)
 const docDefinition = {
   content: [
+    {
+      image: 'img/logo.png',
+      fit: [100, 100]
+    },
     { text: 'Fullstack Master' },
     {
       table: {
@@ -43,6 +47,22 @@ const docDefinition = {
     inativo: {
       fontSize: 12,
       bold: true
+    }
+  },
+  footer: (page, pages) => {
+    return {
+      columns: [
+        'Este documento é parte integrante do contrato empresarial.',
+        {
+          alignment: 'right',
+          text: [
+            { text: page.toString(), italic: true },
+            ' de ',
+            { text: pages.toString(), italic: true }
+          ]
+        }
+      ],
+      margin: [40, 0]
     }
   }
 }
