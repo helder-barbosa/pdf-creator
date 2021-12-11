@@ -9,9 +9,42 @@ const fonts = {
   }
 }
 
+const lines = []
+lines.push([
+  { text: 'Nome', style: 'header' },
+  { text: 'E-mail', style: 'header' },
+  { text: 'Situação', style: 'header' }
+])
+
+for (let i = 0; i < 50; i++) {
+  let ativo = 'Ativo'
+  if (i % 2 == 0) {
+    ativo = { text: 'Inativo', style: 'inativo' }
+  }
+  lines.push(['Usuario ' + i, 'user' + i + '@email.com', ativo])
+}
+
 const printer = new PdfPrinter(fonts)
 const docDefinition = {
-  content: 'FullStack Master'
+  content: [
+    { text: 'Fullstack Master' },
+    {
+      table: {
+        width: ['*', '*', 100],
+        body: lines
+      }
+    }
+  ],
+  styles: {
+    header: {
+      fontSize: 16,
+      bold: true
+    },
+    inativo: {
+      fontSize: 12,
+      bold: true
+    }
+  }
 }
 
 const pdf = printer.createPdfKitDocument(docDefinition)
