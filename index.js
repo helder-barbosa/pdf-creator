@@ -9,6 +9,9 @@ const fonts = {
   }
 }
 
+const express = require('express')
+const app = express()
+
 const lines = []
 lines.push([
   { text: 'Nome', style: 'header' },
@@ -67,7 +70,21 @@ const docDefinition = {
   }
 }
 
+app.get('/get/:name', (req, res) => {
+  const pdf = printer.createPdfKitDocument({
+    content: 'Hello ' + req.params.name
+  })
+  res.header('Content-disposition', 'attachment; filename=meu-pdf.pdf')
+  res.header('Content-type', 'application/pdf')
+  pdf.pipe(res)
+  pdf.end()
+})
+
+/*
 const pdf = printer.createPdfKitDocument(docDefinition)
 const fs = require('fs')
 pdf.pipe(fs.createWriteStream('doc.pdf'))
 pdf.end()
+*/
+
+app.listen(3000, () => console.log('[SERVER] Running...'))
